@@ -1,69 +1,83 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import Die from "./Die.jsx";
 
 function App() {
-  const [dice, setDice] = useState(generateDice())
-  const [tenzies, setTenzies] = useState(false)
-  
+  const [dice, setDice] = useState(generateDice());
+  const [tenzies, setTenzies] = useState(false);
+  const [rolls, setRolls] = useState(0);
+
   useEffect(() => {
-    const allHeld = dice.every(die => die.isHeld)
-    const allSameValue = dice.every(die => die.value === dice[0].value)
+    const allHeld = dice.every((die) => die.isHeld);
+    const firstValue = dice[0].value;
+    const allSameValue = dice.every((die) => die.value === firstValue);
     if (allHeld && allSameValue) {
-      setTenzies(true)
-      console.log("You win!!")
+      setTenzies(true);
+      console.log("You win!!");
     }
-  }, [dice])
-  
+  }, [dice]);
+
   function generateDie() {
     return {
       id: nanoid(),
       value: Math.ceil(Math.random() * 6),
-      isHeld: false
-    }
+      isHeld: false,
+    };
   }
-  
+
   function generateDice() {
-    const diceArr = []
+    const diceArr = [];
     for (let i = 0; i < 10; i++) {
-      diceArr.push(generateDie())
+      diceArr.push(generateDie());
     }
-    return diceArr
+    return diceArr;
   }
-  
+
   function handleClick(id) {
-    setDice(prevState => prevState.map(die => {
-        return die.id === id ? { ...die, isHeld: !die.isHeld } : die
+    setDice((prevState) =>
+      prevState.map((die) => {
+        return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
       })
-    )
+    );
   }
-  
+
   function rollDice() {
     if (tenzies) {
-      setTenzies(false)
-      setDice(generateDice)
+      setTenzies(false);
+      setDice(generateDice);
+      setRolls(0);
     } else {
-      setDice(prevState => prevState.map(die => {
-          return die.isHeld === false ? generateDie() : die
+      setRolls((prevState) => prevState + 1);
+      setDice((prevState) =>
+        prevState.map((die) => {
+          return die.isHeld === false ? generateDie() : die;
         })
-      )
+      );
     }
   }
-  
-  const diceElements = dice.map(die => (
-    <Die key={die.id} value={die.value} isHeld={die.isHeld} onClick={() => handleClick(die.id)}/>
-  ))
-  
+
+  const diceElements = dice.map((die) => (
+    <Die
+      key={die.id}
+      value={die.value}
+      isHeld={die.isHeld}
+      onClick={() => handleClick(die.id)}
+    />
+  ));
+
   return (
     <div className="app-container">
       <h1>Tenzies</h1>
-      <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
-      <div className="dice-board">
-        {diceElements}
-      </div>
-      <button onClick={rollDice} className="roll-dice">{!tenzies ? "Roll" : "New Game"}</button>
+      <p>
+        Roll until all dice are the same. Click each die to freeze it at its
+        current value between rolls.
+      </p>
+      <div className="dice-board">{diceElements}</div>
+      <button onClick={rollDice} className="roll-dice">
+        {!tenzies ? `Roll ${rolls}` : "New Game"}
+      </button>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
