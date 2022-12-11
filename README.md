@@ -1,5 +1,5 @@
 # tenzies
-A game of rolling dice. A Guided Project following the [Scrimba](https://scrimba.com/learn/frontend) frontend developer career path. Extneded functionality by tracking the number of rolls it takes to win the game
+A game of rolling dice. A Guided Project following the [Scrimba](https://scrimba.com/learn/frontend) frontend developer career path. Extended the functionality by tracking the number of rolls it takes to win the game
 
 ## Overview
 
