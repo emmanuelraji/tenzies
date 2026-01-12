@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import "./App.css";
 import Confetti from "react-confetti";
-import Die from "./Die.jsx";
+import Die from "./components/Die.jsx";
 
 function App() {
   const [dice, setDice] = useState(() => generateAllNewDice());
@@ -80,7 +80,7 @@ function App() {
         current value between rolls.
       </p>
       <div className="dice-board">{diceElements}</div>
-      <button onClick={rollDice} className="roll-dice" ref={buttonElement}>
+      <button onClick={rollDice} className="roll-dice" ref={buttonRef}>
         {gameWon ? "New Game" : "Roll"}
       </button>
     </main>
