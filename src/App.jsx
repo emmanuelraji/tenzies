@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
+
 import "./App.css";
+
 import Confetti from "react-confetti";
 import Die from "./components/Die.jsx";
 
@@ -40,8 +42,8 @@ function App() {
     if (!gameWon) {
       setDice((oldDice) =>
         oldDice.map((die) =>
-          die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) }
-        )
+          die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) },
+        ),
       );
     } else {
       setDice(generateAllNewDice());
@@ -51,8 +53,8 @@ function App() {
   function hold(id) {
     setDice((oldDice) =>
       oldDice.map((die) =>
-        die.id === id ? { ...die, isHeld: !die.isHeld } : die
-      )
+        die.id === id ? { ...die, isHeld: !die.isHeld } : die,
+      ),
     );
   }
 
